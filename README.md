@@ -8,7 +8,7 @@ Hand notes are photographed/summarized alongside each unit's queries.
 | Unit | Topic | Status | Date |
 |------|-------|--------|------|
 | 01   |Introduction and basics| ✅ |10-07-2026|
-| 02 |  | ⬜ |  |
+| 02 | Combined above | ⬜ |  |
 | 03 |  | ⬜ |  |
 | 04 |  | ⬜ |  |
 | 05 |  | ⬜ |  |
