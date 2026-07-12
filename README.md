@@ -7,11 +7,12 @@ Hand notes are photographed/summarized alongside each unit's queries.
 
 | Unit | Topic | Status | Date |
 |------|-------|--------|------|
-| 01   |Introduction and basics| ✅ |10-07-2026|
+| 01   |01-introduction and basics| ✅ |10-07-2026|
 | 02 | Combined above | ⬜ |  |
-| 03 |  | ⬜ |  |
-| 04 |  | ⬜ |  |
-| 05 |  | ⬜ |  |
+| 03 | 03-data-definition-ddl | ✅ | 11-07-2026 |
+| 04 | 04-data-manipulation-dml | ✅ | 12-07-2026 |
+| 04 | 05-filtering-data | ✅ | 12-07-2026 |
+| 05 | 06-combining-data | ✅ | 12-07-2026 |
 | 06 |  | ⬜ |  |
 | 07 |  | ⬜ |  |
 | 08 |  | ⬜ |  |
