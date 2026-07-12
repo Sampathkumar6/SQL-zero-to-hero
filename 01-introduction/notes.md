@@ -1,16 +1,24 @@
 # Unit 01 Notes
+what is -
+    sql
+    database
+    server
+    types of database
+    releational database
+    microsoft sql server
+    SSMS (DBMS)
+    Github
+    GitBash
 
 ## Key concepts
 -Statements like below are the fundamentals in understanding basic sql syntax.
-  Select
-  from
-  where
-  group by
-  order by
-  having
-  distinct
-  top
-## Gotchas / things I got wrong
-----------
-## One-line summary
-To view tables with conditions or custom view with only specific columns and etc are the kind of operation.
+
+Usage and understanding of basic statements like -
+    select      -->for selection of columns and table
+    from        -->specify the source
+    where       -->for filtering, usually used before group by
+    group by    -->for aggregation operations
+    order by    -->for sorting data
+    having      -->for filtering, usually used after group by
+    distinct    -->for filtering distinct items in data
+    top         -->subset of data based on position
