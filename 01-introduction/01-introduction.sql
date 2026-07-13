@@ -1,5 +1,4 @@
-
--- UNIT 1- INTRODUCTION AND BASICS OF SQL
+-- UNIT 1and 2 - INTRODUCTION AND BASICS OF SQL
 -- 09-07-2026
 -- Topics like select, where, orderby, group by and other fundamentals
 

@@ -1,4 +1,4 @@
--- Unit 04	- Filtering data
+-- Unit 05	- Filtering data
 -- Date:	- 12-07-2026
 -- Topics:	- where (comparision operators, logical operators, range operators, membership operator, search operator)
 
