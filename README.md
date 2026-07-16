@@ -13,7 +13,7 @@ Hand notes are photographed/summarized alongside each unit's queries.
 | 04 | 04-data-manipulation-dml | ✅ | 12-07-2026 |
 | 04 | 05-filtering-data | ✅ | 12-07-2026 |
 | 05 | 06-combining-data | ✅ | 12-07-2026 |
-| 06 |  | ⬜ |  |
+| 06 | 07-row-level-functions | ✅ | 13-07-2026  |
 | 07 |  | ⬜ |  |
 | 08 |  | ⬜ |  |
 | 09 |  | ⬜ |  |
