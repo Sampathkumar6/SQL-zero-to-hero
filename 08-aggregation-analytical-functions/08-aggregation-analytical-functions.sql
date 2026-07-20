@@ -294,3 +294,162 @@ from sales.Orders
 
 --Window ranking functions1
 
+--row_number() ususally used to rank the rows to provide distinct rank without comparing repeating values
+
+--rank the orders based on their sales from highest to lowest
+
+Select
+orderid,sales,
+row_number() over(order by sales desc) as rankedsales
+from sales.Orders
+
+--rank() usually used to rank the rows to provide rank with comparing repeating values.
+--multiple entries with same value may have same repetetive rank
+--there will be gaps in rank, example- 1,2,2,4 rank with be 1,2,2,4 (asc rank)
+
+Select
+orderid,sales,
+rank() over(order by sales desc) as ranked_sales
+from sales.Orders
+
+--dense_rank()
+--same as rank function only difference it wont leave gaps in ranking
+
+Select
+orderid,sales,
+rank() over(order by sales desc) as ranked_sales,
+dense_rank() over(order by sales desc) as ranked_sales
+from sales.Orders
+
+--Find the top highest sales for each product
+
+select
+*
+from
+(
+Select
+orderid,productid,sales,
+row_number() over(partition by productid order by sales desc) row_sales_desc
+from sales.Orders)t where row_sales_desc = 1
+
+--find the lowest 2 customers based on their total sales
+
+Select
+*
+from
+(select
+customerid,
+sum(sales) total_sales,
+row_number() over(order by sum(sales) ASC) row_totalsales
+from sales.Orders  group by CustomerID)t where row_totalsales<=2
+
+--Assign unique id's to rows of the 'orders archive' table
+
+Select
+row_number() over (order by orderid , orderdate ASC) Uniqueid,
+*
+from sales.OrdersArchive
+
+--identify duplicates in orders.archive and provide clean table without them
+
+Select
+*
+from(
+Select
+*,
+row_number() over(partition by orderid order by creationtime desc) ranked_creationtime
+from sales.OrdersArchive)t where ranked_creationtime =1
+
+--ntile
+--usually used to seperate data into equal parts
+--if there are odd count and one part ends up with high count that one is ordered first then rest
+
+Select
+orderid,sales,
+ntile(2) over(order by sales desc) sales_ntile2_desc,
+ntile(3) over(order by sales desc) sales_ntile3_desc
+from sales.orders
+
+--Segment all orders into 3 categories: high , medium and low sales
+--assuming < 25 as low, < 60 is medium, rest high
+
+Select *,
+case
+	when sales_ntile3 = 1 then 'High'
+	when sales_ntile3 = 2 then 'Medium'
+	when sales_ntile3 = 3 then 'Low'
+end as Category
+from(
+Select
+orderid,sales,
+max(sales) over() sales_max,
+min(sales) over() sales_min,
+avg(sales) over() sales_avg,
+NTILE(3) over(order by sales DESC) sales_ntile3
+from sales.Orders)t
+
+--Use case for equalizing load
+-- In order to export the date, divide the orders into two groups
+
+Select
+ntile(2) over(order by orderid ASC) as Groups,
+*
+from
+sales.orders
+
+--Percentage based ranking----------
+--find the products that falls within the highest 40% of sales
+
+Select *,
+concat(sales_dist * 100 , '%') as sales_dist_percent,
+concat(sales_percentRanked * 100 , '%') as sales_dist_percent
+from(
+Select
+	productid , price ,
+	CUME_DIST() over(order by price DESC) sales_dist,
+	percent_rank() over(order by price DESC) sales_percentRanked
+from sales.Products)t where sales_dist <= 0.4
+
+--Windows Value Funtions--------
+--Usually lag and lead funtion used to access previous and next row respectively in operations, also first_value and last_value
+
+--Analyze the month-over-month (MoM) performance by finding the percentage change in sales between the current and the previous month
+
+Select *,
+case
+	when (sales_month - precedeing_monthsales) is not null then (sales_month - precedeing_monthsales)
+	else 0
+end as changeinsales_month,
+round(cast((sales_month - precedeing_monthsales) as float) / precedeing_monthsales *100,1) as mom_change_percent
+from(
+Select
+month(orderdate) as month_num,
+sum(sales) as sales_month,
+lag(sum(sales)) over(order by month(orderdate)) precedeing_monthsales
+from Sales.orders group by month(orderdate))t
+
+--In order to analuze customer loyalty, rank customers based on	average days between their orders
+
+
+select
+customerid,
+avg(daysuntilnextorder) avgadays,
+rank() over(order by avg(daysuntilnextorder)) rankavg
+from(
+Select
+orderid,
+customerid,orderdate as currentorder,
+lead(orderdate) over(partition by customerid order by orderdate) nextorder,
+datediff(day,orderdate,lead(orderdate) over(partition by customerid order by orderdate)) daysuntilnextorder
+from sales.orders)t group by customerid
+
+--Find the lowest and highest sales for each product
+
+Select
+productid,sales,
+min(sales) over(partition by productid) as product_minsales,
+max(sales) over(partition by productid) as product_maxsales
+from
+sales.orders
+
+-----------------------------END-----------------------------
